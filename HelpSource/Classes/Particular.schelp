@@ -1,0 +1,107 @@
+TITLE:: Particular
+summary:: Particle pattern stuff
+categories::
+related:: Classes/SomeRelatedClass, Reference/SomeRelatedStuff, etc.
+
+DESCRIPTION::
+(put long description here)
+
+
+CLASSMETHODS::
+
+METHOD:: initClass
+
+returns::
+
+METHOD:: synthnames
+
+returns::
+
+METHOD:: sources
+
+returns::
+
+METHOD:: new
+
+returns::
+
+METHOD:: envs
+
+returns::
+
+INSTANCEMETHODS::
+
+METHOD:: postEnvs
+Post all grain envelopes available
+
+ARGUMENT:: self
+
+returns::
+
+METHOD:: def
+Get a particular SynthDef name
+
+ARGUMENT:: envelopetype
+Symbol (eg 'rexpodec', 'expodec')
+
+ARGUMENT:: instrument
+Symbol ('sin', 'saw', 'fm', 'buf1', 'buf2', etc.)
+
+ARGUMENT:: root
+Symbol (the prefix of the synths, by default )
+
+returns:: SynthDef name as symbol
+
+METHOD:: defs
+Identity dictionary containing all synth def names
+
+returns:: IdentityDictionary
+
+METHOD:: postSynths
+Post all available synths
+
+ARGUMENT:: self
+
+returns::
+
+METHOD:: makeSynth
+SynthDef factory function, making a synth def from
+
+ARGUMENT:: synthname
+(describe argument here)
+
+ARGUMENT:: envelope
+(describe argument here)
+
+ARGUMENT:: sourcefunc
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: init
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: makeSynths
+(describe method here)
+
+ARGUMENT:: prefix
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: plotEnvs
+(describe method here)
+
+ARGUMENT:: self
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+
+EXAMPLES::
+
+code::
+(some example code)
+::

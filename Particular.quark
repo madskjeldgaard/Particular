@@ -1,0 +1,11 @@
+(
+  name: "Particular",
+  summary: "Easily accessable particle synth defs, including Ctk-synthdefs",
+  version: "1.0",
+  schelp: "Particular.schelp",
+  dependencies: ['Ctk],
+  license: "GNU GPL v3.0",
+  copyright: "madskjeldgaard",
+  ext_dependency: "",
+  url: "https://github.com/madskjeldgaard/particular"
+)
