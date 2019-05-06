@@ -44,10 +44,7 @@ Particular {
                     )
                 )
             },
-			saw: {| freq, width|
-				AmpComp.ir(freq) * VarSaw.ar(freq, 0, width)
-			},
-			buf1: {| buffer, rate=1, trig=1, start=0, loop=0|
+            buf1: {| buffer, rate=1, trig=1, start=0, loop=0|
 				PlayBuf.ar(1, buffer, rate * BufRateScale.ir(buffer), trig, start * BufFrames.ir(buffer), loop)
 			},
 			buf2: {| buffer, rate=1, trig=1, start=0, loop=0|
@@ -61,7 +58,6 @@ Particular {
 		this.makeSynths();
 
         ^this;
-
 
 	}
 

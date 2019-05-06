@@ -1,54 +1,45 @@
 TITLE:: Particular
-summary:: Particle pattern stuff
-categories::
-related:: Classes/SomeRelatedClass, Reference/SomeRelatedStuff, etc.
+summary:: Particle synth defs
+categories:: Granular synthesis
+related:: SynthDef
 
 DESCRIPTION::
-(put long description here)
-
-
-CLASSMETHODS::
-
-METHOD:: initClass
-
-returns::
-
-METHOD:: synthnames
-
-returns::
-
-METHOD:: sources
-
-returns::
-
-METHOD:: new
-
-returns::
-
-METHOD:: envs
-
-returns::
+Easily accessable particle synth defs, including Ctk-synthdefs
 
 INSTANCEMETHODS::
 
-METHOD:: postEnvs
-Post all grain envelopes available
-
-ARGUMENT:: self
-
-returns::
-
 METHOD:: def
-Get a particular SynthDef name
+This is the main method of this class. Use it to get a particular SynthDef name
 
 ARGUMENT:: envelopetype
-Symbol (eg 'rexpodec', 'expodec')
+Symbol, you can choose either of the following:
+'sine'
+'click'
+'perc'
+'revperc'
+'quasi'
+'three'
+'welch'
+'expodec'
+'rexpodec'
+'m'
+
+You can see what these look like by executing the following code:
+code:: 
+p = Particular.new;
+p.plotEnvs;
+::
 
 ARGUMENT:: instrument
-Symbol ('sin', 'saw', 'fm', 'buf1', 'buf2', etc.)
+Symbol, you can choose either of the following:
+'sin'
+'fm'
+'buf1'
+'buf2'
+'in'
 
 ARGUMENT:: root
-Symbol (the prefix of the synths, by default )
+Symbol (the prefix of the synths, by default it's 'particular')
 
 returns:: SynthDef name as symbol
 
@@ -60,48 +51,24 @@ returns:: IdentityDictionary
 METHOD:: postSynths
 Post all available synths
 
-ARGUMENT:: self
+METHOD:: plotEnvs 
+Plot all envelopes available
 
-returns::
-
-METHOD:: makeSynth
-SynthDef factory function, making a synth def from
-
-ARGUMENT:: synthname
-(describe argument here)
-
-ARGUMENT:: envelope
-(describe argument here)
-
-ARGUMENT:: sourcefunc
-(describe argument here)
-
-returns:: (describe returnvalue here)
-
-METHOD:: init
-(describe method here)
-
-returns:: (describe returnvalue here)
-
-METHOD:: makeSynths
-(describe method here)
-
-ARGUMENT:: prefix
-(describe argument here)
-
-returns:: (describe returnvalue here)
-
-METHOD:: plotEnvs
-(describe method here)
-
-ARGUMENT:: self
-(describe argument here)
-
-returns:: (describe returnvalue here)
-
+returns:: nil
 
 EXAMPLES::
 
 code::
-(some example code)
+p = Particular.new;
+Pdef(\g1).play;
+
+// Random sine grains
+Pdef(\g1,
+    Pbind(\instrument, p.def("expodec", "sin"), \dur, Pwhite(0.01, 0.25), \freq, Pkey(\dur).reciprocal * 10000)
+);
+
+// Random fm grains with random envelopes
+Pdef(\g1,
+    Pbind(\instrument, Pxrand(p.defs['fm'], inf), \dur, Pwhite(0.01, 0.25), \freq, Pkey(\dur).reciprocal * 10000)
+);
 ::
