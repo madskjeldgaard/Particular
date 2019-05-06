@@ -1,9 +1,14 @@
 # Particular
 ![hello particle my old friend](Particular.png "Particlez")
 
-Easily accessable particle synth defs, including Ctk-synthdefs for off line use, in SuperCollider. 
+A SuperCollider package for particle synthesis. 
 
 This is an old SuperCollider trick that lets you create granular synthesis on a per-particle basis. This package is just a way to do that more easily.
+
+### Installation
+
+In SuperCollider, evaluate the following code to install it as a quark:
+`Quarks.install("https://github.com/madskjeldgaard/Particular.git");`
 
 ### Example
 ```
@@ -19,5 +24,4 @@ Pdef(\g1,
 Pdef(\g1,
     Pbind(\instrument, Pxrand(p.defs['fm'], inf), \dur, Pwhite(0.01, 0.25), \freq, Pkey(\dur).reciprocal * 10000)
 );
-
 ```
