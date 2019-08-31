@@ -1,7 +1,7 @@
 (
   name: "Particular",
   summary: "Easily accessable particle synth defs, including Ctk-synthdefs",
-  version: "1.0",
+  version: "1.01",
   schelp: "Particular.schelp",
   dependencies: ["Ctk"],
   license: "GNU GPL v3.0",
