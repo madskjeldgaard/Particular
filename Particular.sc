@@ -112,5 +112,15 @@ Particular {
 
         ^synthnames;
 	}
+}
 
+// Todo: Plot all envelopes in one window including test buttons for each
+ParticularPlots {
+	*new{ |particularEnvs|
+		^super.new.init(particularEnvs);
+	}
+
+	init{ |particularEnvs|
+
+	}
 }
