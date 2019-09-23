@@ -1,5 +1,5 @@
 Particular {
-	classvar <>synthnames, <>envs, <>sources, <>ctk, quarkpath, numchans;
+	classvar <>synthnames, <>envs, <>sources, quarkpath, numchans;
 	*initClass{
 
 		//this method makes sure that the IDict is compiled before
@@ -9,7 +9,6 @@ Particular {
 		envs       = IdentityDictionary.new;
 		synthnames = IdentityDictionary.new;
 		sources    = IdentityDictionary.new;
-		ctk        = IdentityDictionary.new;
 
 	}
 
@@ -44,10 +43,6 @@ Particular {
 
     defs{
         ^synthnames;
-    }
-
-	ctkdefs{
-        ^ctk;
     }
 
 	// INFO
@@ -122,10 +117,6 @@ Particular {
 				var sdname = (prefix ++ '_' ++ sourcename ++ '_' ++ envname).asSymbol;
 
 				synthnames[sourcename] = synthnames[sourcename].add(sdname);
-
-				// ctk[sourcename][envname] = ctk[sourcename][envname] ?? IdentityDictionary.new;
-				ctk[sourcename] = ctk[sourcename] ?? ();
-				ctk[sourcename] = ctk[sourcename][ envname.asSymbol ] = this.makeCtkSynth(sdname, env, sourcefunc);
 
 				this.makeSynth(sdname, env, sourcefunc);
 			}
