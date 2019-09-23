@@ -1,5 +1,5 @@
 Particular {
-	classvar <>synthnames, <>envs, <>sources, <>ctk, quarkpath;
+	classvar <>synthnames, <>envs, <>sources, <>ctk, quarkpath, numchans;
 	*initClass{
 
 		//this method makes sure that the IDict is compiled before
@@ -13,11 +13,13 @@ Particular {
 
 	}
 
-	*new{
-		^super.new.init;
+	*new{ |numChannels=1|
+		^super.new.init(numChannels);
 	}
 
-	init{
+	init{ |numChannels|
+
+		numchans = numChannels;
 
 		quarkpath = Quark("Particular").localPath;
 
@@ -68,15 +70,34 @@ Particular {
 		envs.keysValuesDo{|name, env| env.plot(name: name)}
 	}
 
+	panFunction {
+		var panfunc;
+
+		panfunc = case
+		{ numchans == 1 } { 
+			{ |snd, pan=0.5| Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0)) }			
+		}
+		{ numchans == 2 } { 
+			{ |snd, pan=0.5| Balance2.ar(snd[0], snd[1], pan.linlin(0.0,1.0,-1.0,1.0)) }			
+		}
+		{ numchans > 2 } { 
+			{ |snd, pan=0.5, width=2| PanAz.ar(numchans, snd, pan.linlin(0.0,1.0,-1.0,1.0), width: width) }			
+		};
+
+	^panfunc
+
+	}
+
 	// FUNC
 	makeSynth{| synthname, envelope, sourcefunc|
 
-		SynthDef(synthname, { |out, amp=1, sustain=0.01, pan=0.5|
+		SynthDef(synthname, { |out, amp=1, sustain=0.01|
 
 			var env = EnvGen.ar(envelope, timeScale:  sustain, doneAction:  2);
 			var snd = SynthDef.wrap(sourcefunc, prependArgs: [env]);
 
-            snd = Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0));
+            // snd = Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0));
+			snd = SynthDef.wrap(this.panFunction, prependArgs: [snd]);
 
 			OffsetOut.ar(out, snd * env * amp * 0.5);
 		}, \ir.dup(4 + sourcefunc.argNames.size)).add;
