@@ -26,22 +26,22 @@
 				)
 			)
 		},
-		buf1: {| env, buffer, rate=1, trig=1, start=0, loop=1|
-			rate = rate * 10.0;
-			PlayBuf.ar(1, buffer, rate * BufRateScale.ir(buffer), trig, start * BufFrames.ir(buffer), loop)
+		buf1: {| env, buffer, freq=1, trig=1, start=0, loop=1|
+			freq = freq * 10.0;
+			PlayBuf.ar(1, buffer, freq * BufRateScale.ir(buffer), trig, start * BufFrames.ir(buffer), loop)
 		},
-		buf2: {| env, buffer, rate=1, trig=1, start=0, loop=1|
-			rate = rate * 10.0;
-			PlayBuf.ar(2, buffer, rate * BufRateScale.ir(buffer), trig, start * BufFrames.ir(buffer), loop).sum
+		buf2: {| env, buffer, freq=1, trig=1, start=0, loop=1|
+			freq = freq * 10.0;
+			PlayBuf.ar(2, buffer, freq * BufRateScale.ir(buffer), trig, start * BufFrames.ir(buffer), loop).sum
 		},
-		bufchirp1: {| env, buffer, rate=1, trig=1, start=0, loop=1|
-			rate = rate * 10.0;
-			rate = env.linlin(0.0,1.0, -1 * rate, rate);
-			PlayBuf.ar(1, buffer, rate * BufRateScale.ir(buffer), trig, start * BufFrames.ir(buffer), loop)
+		bufchirp1: {| env, buffer, freq=1, trig=1, start=0, loop=1|
+			freq = freq * 10.0;
+			freq = env.linlin(0.0,1.0, -1 * freq, freq);
+			PlayBuf.ar(1, buffer, freq * BufRateScale.ir(buffer), trig, start * BufFrames.ir(buffer), loop)
 		},
-		bufchirp2: {| env, buffer, rate=1, trig=1, start=0, loop=1|
-			rate = rate * 10.0;
-			rate = env.linlin(0.0,1.0, 0.1, rate);
-			PlayBuf.ar(2, buffer, rate * BufRateScale.ir(buffer), trig, start * BufFrames.ir(buffer), loop).sum
+		bufchirp2: {| env, buffer, freq=1, trig=1, start=0, loop=1|
+			freq = freq * 10.0;
+			freq = env.linlin(0.0,1.0, 0.1, freq);
+			PlayBuf.ar(2, buffer, freq * BufRateScale.ir(buffer), trig, start * BufFrames.ir(buffer), loop).sum
 		}
 	)	

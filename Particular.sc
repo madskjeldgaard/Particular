@@ -1,5 +1,8 @@
 Particular {
-	classvar <>synthnames, <>envs, <>sources, quarkpath, numchans;
+	classvar synthnames, envs, sources, quarkpath;
+
+	var numchans;
+
 	*initClass{
 
 		//this method makes sure that the IDict is compiled before
@@ -22,24 +25,26 @@ Particular {
 
 		quarkpath = Quark("Particular").localPath;
 
-		envs.putAll((quarkpath +/+ "envs.scd" ).load);
-		sources.putAll((quarkpath +/+ "sources.scd" ).load);
+		envs.putAll(this.envsPath.load);
+		sources.putAll(this.sourcesPath.load);
 
 		this.makeSynths();
 
         ^this;
 	}
 
-    // Get a particular synthdef's name
-    // TODO: Add check if chosen synth exists
-    def{
-        arg envelopetype = "rexpodec",
-        instrument       = "sin",
-        root             = "particular";
+	envsPath {
+		^quarkpath +/+ "envs.scd"
+	}
 
-        ^(root ++ "_" ++ instrument ++ "_" ++ envelopetype).asSymbol
+	sourcesPath {
+		^quarkpath +/+ "sources.scd"
+	}
 
-    }
+	def {|source="sin", env="expodec"|
+
+		^(source ++ env ++ numchans).asSymbol
+	}
 
     defs{
         ^synthnames;
@@ -85,6 +90,7 @@ Particular {
 
 	// FUNC
 	makeSynth{| synthname, envelope, sourcefunc|
+		var numargs = 3 + sourcefunc.argNames.size + this.panFunction.argNames.size;
 
 		SynthDef(synthname, { |out, amp=1, sustain=0.01|
 
@@ -94,27 +100,14 @@ Particular {
             // snd = Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0));
 			snd = SynthDef.wrap(this.panFunction, prependArgs: [snd]);
 
-			OffsetOut.ar(out, snd * env * amp * 0.5);
-		}, \ir.dup(4 + sourcefunc.argNames.size)).add;
+			OffsetOut.ar(out, snd * env * amp );
+		}, \ir.dup(numargs)).add;
 	}
 
-	makeCtkSynth{| synthname, envelope, sourcefunc|
-
-			^CtkSynthDef(synthname, { |out, amp=0.1, sustain=0.01, pan=0.5|
-
-				var env = EnvGen.ar(envelope, timeScale: sustain, doneAction: 2);
-				var snd = SynthDef.wrap(sourcefunc, prependArgs: [env]);
-
-				snd = Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0));
-
-				OffsetOut.ar(out, snd * env * amp);
-			}, \ir.dup(4 + sourcefunc.argNames.size));
-		}
-
-	makeSynths{| prefix='particular'|
+	makeSynths{
 		envs.keysValuesDo{|envname, env|
 			sources.keysValuesDo{|sourcename, sourcefunc|
-				var sdname = (prefix ++ '_' ++ sourcename ++ '_' ++ envname).asSymbol;
+				var sdname = this.def(sourcename, envname);
 
 				synthnames[sourcename] = synthnames[sourcename].add(sdname);
 

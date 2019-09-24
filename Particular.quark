@@ -1,9 +1,9 @@
 (
   name: "Particular",
-  summary: "Easily accessable particle synth defs, including Ctk-synthdefs",
-  version: "1.01",
+  summary: "Particle synthesis library",
+  version: "1.02",
   schelp: "Particular.schelp",
-  dependencies: ["Ctk"],
+  dependencies: [],
   license: "GNU GPL v3.0",
   copyright: "madskjeldgaard",
   ext_dependency: "",

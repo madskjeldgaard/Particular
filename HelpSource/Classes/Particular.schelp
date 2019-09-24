@@ -1,10 +1,22 @@
 TITLE:: Particular
-summary:: Particle synth defs
+summary:: Particle synthesis library
 categories:: Granular synthesis
 related:: SynthDef
 
 DESCRIPTION::
-Easily accessable particle synth defs, including Ctk-synthdefs
+Particle synthesis library formalizing a common way of working with particle synthesis in SuperCollider which involves working on a per-particle basis, as is seen in the (MIT) SuperCollider Book's chapter on granular synthesis for example. 
+
+Particular contains a library of common envelope shapes for granular synthesis and common source sounds for the grains and combines those two automatically in all possible combinations. These are stored in the "envs.scd" file and "sources.scd" in this quarks folder. Both of these are organized in dictionaries which are easily edited (without the need for recompilation).
+
+code::
+p = Particular.new;
+
+// Path to envelopes file
+p.envsPath;
+
+// Path to sound sources file
+p.sourcesPath;
+::
 
 INSTANCEMETHODS::
 
@@ -12,17 +24,13 @@ METHOD:: def
 This is the main method of this class. Use it to get a particular SynthDef name
 
 ARGUMENT:: envelopetype
-Symbol, you can choose either of the following:
-'sine'
-'click'
-'perc'
-'revperc'
-'quasi'
-'three'
-'welch'
-'expodec'
-'rexpodec'
-'m'
+
+For example "expodec"
+
+code::
+// See all envs
+p.postEnvs
+::
 
 You can see what these look like by executing the following code:
 code:: 
@@ -36,7 +44,9 @@ Symbol, you can choose either of the following:
 'fm'
 'buf1'
 'buf2'
-'in'
+'chirp'
+'chirpp'
+
 
 ARGUMENT:: root
 Symbol (the prefix of the synths, by default it's 'particular')
