@@ -1,5 +1,5 @@
 Particular {
-	classvar synthnames, envs, sources, quarkpath;
+	classvar synthnames, <>envs, <>sources, quarkpath;
 
 	var numchans;
 
@@ -41,7 +41,7 @@ Particular {
 		^quarkpath +/+ "sources.scd"
 	}
 
-	def {|source="sin", env="expodec"|
+	def {| env="expodec", source="sin"|
 
 		^(source ++ env ++ numchans).asSymbol
 	}
@@ -92,7 +92,7 @@ Particular {
 	makeSynth{| synthname, envelope, sourcefunc|
 		var numargs = 3 + sourcefunc.argNames.size + this.panFunction.argNames.size;
 
-		SynthDef(synthname, { |out, amp=1, sustain=0.01|
+		SynthDef(synthname, { |out, amp=1, sustain=0.1|
 
 			var env = EnvGen.ar(envelope, timeScale:  sustain, doneAction:  2);
 			var snd = SynthDef.wrap(sourcefunc, prependArgs: [env]);
@@ -107,7 +107,7 @@ Particular {
 	makeSynths{
 		envs.keysValuesDo{|envname, env|
 			sources.keysValuesDo{|sourcename, sourcefunc|
-				var sdname = this.def(sourcename, envname);
+				var sdname = this.def(envname, sourcename);
 
 				synthnames[sourcename] = synthnames[sourcename].add(sdname);
 
@@ -116,16 +116,5 @@ Particular {
 		}
 
         ^synthnames;
-	}
-}
-
-// Todo: Plot all envelopes in one window including test buttons for each
-ParticularPlots {
-	*new{ |particularEnvs|
-		^super.new.init(particularEnvs);
-	}
-
-	init{ |particularEnvs|
-
 	}
 }

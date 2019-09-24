@@ -2,21 +2,21 @@
 
 (
 	sin: {|env, freq=0.01|
-		freq = freq.linexp(0.0,1.0,20.0, 15000.0);
+		freq = freq.linexp(0.0,1.0,50.0, 15000.0);
 		AmpComp.ir(freq) * FSinOsc.ar(freq)
 	},
 	chirp: {|env, freq=0.01|
-		freq = freq.linexp(0.0,1.0,20.0, 15000.0);
+		freq = freq.linexp(0.0,1.0,50.0, 15000.0);
 		AmpComp.ir(freq) * FSinOsc.ar(env.linexp(0.0,1.0, freq/4, freq))
 	},
 
 	chirpp: {|env, freq=0.01, index1=0.5261234|
-		freq = freq.linexp(0.0,1.0,20.0, 15000.0);
+		freq = freq.linexp(0.0,1.0,50.0, 15000.0);
 		AmpComp.ir(freq) * SinOsc.ar(SinOsc.ar(freq * index1, mul: env.linexp(0.0,1.0,freq, 1) * env.linexp(0.0,1.0, freq/4, freq)))
 	},
 
 	fm: {|env, freq=0.01, index1=1.12543124, index2=1.98521, dur|
-		freq = freq.linexp(0.0,1.0,20.0, 15000.0);
+		freq = freq.linexp(0.0,1.0,50.0, 15000.0);
 
 		AmpComp.ir(freq) *
 		SinOsc.ar(

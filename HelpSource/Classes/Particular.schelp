@@ -18,6 +18,8 @@ p.envsPath;
 p.sourcesPath;
 ::
 
+Note: All parameters in these synths are normalized to 0.0-1.0
+
 INSTANCEMETHODS::
 
 METHOD:: def
