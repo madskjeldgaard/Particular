@@ -71,16 +71,31 @@ returns:: nil
 EXAMPLES::
 
 code::
-p = Particular.new;
-Pdef(\g1).play;
+p = Particular.new(numChannels: 2);
+b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
 
 // Random sine grains
 Pdef(\g1,
-    Pbind(\instrument, p.def("expodec", "sin"), \dur, Pwhite(0.01, 0.25), \freq, Pkey(\dur).reciprocal * 10000)
-);
+    Pbind(
+		\instrument, p.def("expodec", "sin"), 
+		\dur, Pwhite(0.01, 0.25), 
+		\freq, Pwhite(0.0,1.0)
+	)
+).play;
 
-// Random fm grains with random envelopes
-Pdef(\g1,
-    Pbind(\instrument, Pxrand(p.defs['fm'], inf), \dur, Pwhite(0.01, 0.25), \freq, Pkey(\dur).reciprocal * 10000)
-);
+// Simple time stretch
+Pdef(\timeStretch, 
+	Pbind(
+		\instrument, p.def("hann", "buf1"),
+		\buffer, b,
+		\timestretch, 8,
+		\overlaps, 4, // Overlap between grains
+		\bufdur, Pkey(\timestretch) * Pfunc({|ev| ev[\buffer].duration}),
+		\start, Pseg([0, 1], Pkey(\bufdur), \lin, inf), // Buffer pointer
+		\freq, 0.1, // Playback rate
+		\dur, 0.1, // Duration of each sound event
+		\sustain, Pkey(\overlaps) * Pkey(\dur),
+		\pan, Pkey(\start) // Pan follows buffer pointer
+	)
+).play;
 ::
