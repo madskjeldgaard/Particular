@@ -74,12 +74,12 @@ Particular {
 		var panfunc;
 
 		panfunc = case
-		{ numchans == 1 } { 
+		{ numchans < 3 } { 
 			{ |snd, pan=0.5| Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0)) }			
 		}
-		{ numchans == 2 } { 
-			{ |snd, pan=0.5| Balance2.ar(snd[0], snd[1], pan.linlin(0.0,1.0,-1.0,1.0)) }			
-		}
+		// { numchans == 2 } { 
+		// 	{ |snd, pan=0.5| Balance2.ar(snd[0], snd[1], pan.linlin(0.0,1.0,-1.0,1.0)) }			
+		// }
 		{ numchans > 2 } { 
 			{ |snd, pan=0.5, width=2| PanAz.ar(numchans, snd, pan.linlin(0.0,1.0,-1.0,1.0), width: width) }			
 		};
