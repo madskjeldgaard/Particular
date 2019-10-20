@@ -1,7 +1,7 @@
 Particular {
 	classvar synthnames, <>envs, <>sources, quarkpath;
 
-	var numchans;
+	classvar <>numchans;
 
 	*initClass{
 
@@ -81,7 +81,7 @@ Particular {
 		// 	{ |snd, pan=0.5| Balance2.ar(snd[0], snd[1], pan.linlin(0.0,1.0,-1.0,1.0)) }			
 		// }
 		{ numchans > 2 } { 
-			{ |snd, pan=0.5, width=2| PanAz.ar(numchans, snd, pan.linlin(0.0,1.0,-1.0,1.0), width: width) }			
+			{ |snd, pan=0.5, width=1| PanAz.ar(numchans, snd, pan.linlin(0.0,1.0,-1.0,1.0), width: width) }			
 		};
 
 	^panfunc
