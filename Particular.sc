@@ -50,6 +50,10 @@ Particular {
         ^synthnames;
     }
 
+    shapes{
+        ^envs.keys.asArray;
+    }
+
 	// INFO
 	postEnvs{|self|
 		"[%][Particular][*] Available envelopes:".format(Date.getDate.format("%H:%M:%S")).postln;
