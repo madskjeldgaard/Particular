@@ -67,6 +67,11 @@ Particular {
         ^envs.keys.asArray;
     }
 
+	sources{
+        ^sources.keys.asArray;
+    }
+
+
 	// INFO
 	postEnvs{|self|
 		"[%][Particular][*] Available envelopes:".format(Date.getDate.format("%H:%M:%S")).postln;
