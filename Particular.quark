@@ -1,7 +1,7 @@
 (
   name: "Particular",
   summary: "Particle synthesis library",
-  version: "1.03",
+  version: "1.04",
   schelp: "Particular.schelp",
   dependencies: [],
   license: "GNU GPL v3.0",
