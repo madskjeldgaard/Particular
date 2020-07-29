@@ -13,6 +13,19 @@ Particular {
 		synthnames = IdentityDictionary.new;
 		sources    = IdentityDictionary.new;
 
+		// Add custom type
+		Event.addEventType(\particular, {|server|
+			~type = \note; // Inherit from this eventtype
+			~shape = ~shape ?? { ~particular.shapes.choose };
+			~source = ~source ?? { ~particular.sources.choose };
+
+			~instrument = ~particular.def(~shape, ~source );
+
+			currentEnvironment.play;
+		});
+
+
+
 	}
 
 	*new{ |numChannels=1|
