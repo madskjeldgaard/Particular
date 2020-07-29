@@ -5,11 +5,18 @@
 		freq = freq;
 		AmpComp.ir(freq) * FSinOsc.ar(freq)
 	},
+	white: {|env, freq=444, width=1|
+		var sig = env * WhiteNoise.ar();
+		Resonz.ar(sig, freq, width)
+	},
+	pink: {|env, freq=444, width=1|
+		var sig = env * PinkNoise.ar();
+		BBandPass.ar(sig, freq, width)
+	},
 	chirp: {|env, freq=0.01|
 		freq = freq;
 		AmpComp.ir(freq) * FSinOsc.ar(env.linexp(0.0,1.0, freq/4, freq))
 	},
-
 	chirpp: {|env, freq=0.01, index1=0.5261234|
 		freq = freq;
 		AmpComp.ir(freq) * SinOsc.ar(SinOsc.ar(freq * index1, mul: env.linexp(0.0,1.0,freq, 1) * env.linexp(0.0,1.0, freq/4, freq)))
