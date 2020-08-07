@@ -5,6 +5,14 @@
 		freq = freq;
 		AmpComp.ir(freq) * FSinOsc.ar(freq)
 	},
+	tri: {|env, freq=0.01|
+		freq = freq;
+		AmpComp.ir(freq) * DPW3Tri.ar(freq)
+	},
+	saw: {|env, freq=0.01|
+		freq = freq;
+		AmpComp.ir(freq) * DPW4Saw.ar(freq)
+	},
 	white: {|env, freq=444, width=1|
 		var sig = env * WhiteNoise.ar();
 		Resonz.ar(sig, freq, width)
