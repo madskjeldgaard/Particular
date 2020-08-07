@@ -1,5 +1,5 @@
 Particular {
-	classvar synthnames, <>envs, <>sources, quarkpath;
+	classvar <singleton, synthnames, <>envs, <>sources, quarkpath;
 
 	classvar <>numchans;
 
@@ -16,6 +16,8 @@ Particular {
 		// Add custom type
 		Event.addEventType(\particular, {|server|
 			~type = \note; // Inherit from this eventtype
+
+			~particular = ~particular ?? { Particular.singleton};
 			~shape = ~shape ?? { ~particular.shapes.choose };
 			~source = ~source ?? { ~particular.sources.choose };
 
@@ -24,12 +26,22 @@ Particular {
 			currentEnvironment.play;
 		});
 
-
-
 	}
 
-	*new{ |numChannels=1|
-		^super.new.init(numChannels);
+	*new{ |numChannels=2|
+		if(singleton.isNil or: { numChannels != singleton.numChannels }, {
+
+			if( numChannels != singleton.numChannels && singleton.notNil, { 
+				"Changing number of channels in Particular singleton from % to %".format(singleton.numChannels, numChannels).postln 
+			});
+
+			singleton = super.new.init( numChannels );
+		}, {
+			"Particular instance already exists in .singleton. Overwriting...".postln;
+			singleton = super.new.init( numChannels );
+		});
+
+		^singleton;
 	}
 
 	init{ |numChannels|
