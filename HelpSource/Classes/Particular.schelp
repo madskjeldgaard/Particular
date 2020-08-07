@@ -63,7 +63,7 @@ Pdef(\g1,
     Pbind(
 		\instrument, p.def("expodec", "sin"), 
 		\dur, Pwhite(0.01, 0.25), 
-		\freq, Pwhite(0.0,1.0)
+		\freq, Pwhite(330.0,1011.0)
 	)
 ).play;
 
