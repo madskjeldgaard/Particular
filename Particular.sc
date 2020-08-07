@@ -109,13 +109,13 @@ Particular {
 
 		panfunc = case
 		{ numchans < 3 } { 
-			{ |snd, pan=0.5| Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0)) }			
+			{ |snd, pan=0.5| Pan2.ar(snd, pan) }			
 		}
 		// { numchans == 2 } { 
-		// 	{ |snd, pan=0.5| Balance2.ar(snd[0], snd[1], pan.linlin(0.0,1.0,-1.0,1.0)) }			
+		// 	{ |snd, pan=0.5| Balance2.ar(snd[0], snd[1], pan) }			
 		// }
 		{ numchans > 2 } { 
-			{ |snd, pan=0.5, width=2| PanAz.ar(numchans, snd, pan.linlin(0.0,1.0,-1.0,1.0), width: width) }			
+			{ |snd, pan=0.5, width=2| PanAz.ar(numchans, snd, pan, width: width) }			
 		};
 
 	^panfunc
@@ -131,7 +131,7 @@ Particular {
 			var env = EnvGen.ar(envelope, timeScale:  sustain, doneAction:  2);
 			var snd = SynthDef.wrap(sourcefunc, prependArgs: [env]);
 
-            // snd = Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0));
+            // snd = Pan2.ar(snd, pan);
 			snd = SynthDef.wrap(this.panFunction, prependArgs: [snd]);
 
 			OffsetOut.ar(out, snd * env * amp );
