@@ -7,6 +7,7 @@
 	tri: Env([0, 1, 0], [0.5, 0.5], \lin),
 	welch: Env([0, 1, 1, 0], [0.25, 0.5, 0.25], \welch), // Welch curve
 	expodec: Env([1, 0.0001], [1.0], \exp), // Exponential decay
+	click: Env([1,1], [1]),  
 	hamm: {
 		// Taken from https://github.com/khoin/ExtraWindows
 		var envDuration = 1.0; // 500ms

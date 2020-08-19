@@ -1,5 +1,5 @@
 Particular {
-	classvar synthnames, <>envs, <>sources, quarkpath;
+	classvar <singleton, synthnames, <>envs, <>sources, quarkpath;
 
 	classvar <>numchans;
 
@@ -16,6 +16,8 @@ Particular {
 		// Add custom type
 		Event.addEventType(\particular, {|server|
 			~type = \note; // Inherit from this eventtype
+
+			~particular = ~particular ?? { Particular.singleton};
 			~shape = ~shape ?? { ~particular.shapes.choose };
 			~source = ~source ?? { ~particular.sources.choose };
 
@@ -24,12 +26,22 @@ Particular {
 			currentEnvironment.play;
 		});
 
-
-
 	}
 
-	*new{ |numChannels=1|
-		^super.new.init(numChannels);
+	*new{ |numChannels=2|
+		if(singleton.isNil or: { numChannels != singleton.numChannels }, {
+
+			if( numChannels != singleton.numChannels && singleton.notNil, { 
+				"Changing number of channels in Particular singleton from % to %".format(singleton.numChannels, numChannels).postln 
+			});
+
+			singleton = super.new.init( numChannels );
+		}, {
+			"Particular instance already exists in .singleton. Overwriting...".postln;
+			singleton = super.new.init( numChannels );
+		});
+
+		^singleton;
 	}
 
 	init{ |numChannels|
@@ -97,13 +109,13 @@ Particular {
 
 		panfunc = case
 		{ numchans < 3 } { 
-			{ |snd, pan=0.5| Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0)) }			
+			{ |snd, pan=0.5| Pan2.ar(snd, pan) }			
 		}
 		// { numchans == 2 } { 
-		// 	{ |snd, pan=0.5| Balance2.ar(snd[0], snd[1], pan.linlin(0.0,1.0,-1.0,1.0)) }			
+		// 	{ |snd, pan=0.5| Balance2.ar(snd[0], snd[1], pan) }			
 		// }
 		{ numchans > 2 } { 
-			{ |snd, pan=0.5, width=2| PanAz.ar(numchans, snd, pan.linlin(0.0,1.0,-1.0,1.0), width: width) }			
+			{ |snd, pan=0.5, width=2| PanAz.ar(numchans, snd, pan, width: width) }			
 		};
 
 	^panfunc
@@ -119,7 +131,7 @@ Particular {
 			var env = EnvGen.ar(envelope, timeScale:  sustain, doneAction:  2);
 			var snd = SynthDef.wrap(sourcefunc, prependArgs: [env]);
 
-            // snd = Pan2.ar(snd, pan.linlin(0.0,1.0,-1.0,1.0));
+            // snd = Pan2.ar(snd, pan);
 			snd = SynthDef.wrap(this.panFunction, prependArgs: [snd]);
 
 			OffsetOut.ar(out, snd * env * amp );
