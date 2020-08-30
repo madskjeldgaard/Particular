@@ -76,7 +76,7 @@ Pdef(\timeStretch,
 		\overlaps, 4, // Overlap between grains
 		\bufdur, Pkey(\timestretch) * Pfunc({|ev| ev[\buffer].duration}),
 		\start, Pseg([0, 1], Pkey(\bufdur), \lin, inf), // Buffer pointer
-		\freq, 0.1, // Playback rate
+		\rate, 0.1, // Playback rate
 		\dur, 0.1, // Duration of each sound event
 		\sustain, Pkey(\overlaps) * Pkey(\dur),
 		\pan, Pkey(\start) // Pan follows buffer pointer
